@@ -11,10 +11,14 @@ import BookList from './components/BookList';
 import UserList from './components/UserList';
 import Footer from './components/Footer';
 
-function App() {
+export default function App() {
   const marginTop = {
     marginTop:"20px"
   };
+
+  const heading = "Welcome to Book Shop";
+  const quote = "Good friends, good books, and a sleepy conscience: this is the ideal life.";
+  const footer = "Mark Twain";
 
   return (
     <Router>
@@ -23,7 +27,7 @@ function App() {
             <Row>
                 <Col lg={12} style={marginTop}>
                     <Switch>
-                        <Route path="/" exact component={Welcome}/>
+                        <Route path="/" exact component={() => <Welcome heading={heading} quote={quote} footer={footer}/>}/>
                         <Route path="/add" exact component={Book}/>
                         <Route path="/edit/:id" exact component={Book}/>
                         <Route path="/list" exact component={BookList}/>
@@ -36,5 +40,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
