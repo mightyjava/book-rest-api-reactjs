@@ -18,6 +18,14 @@ export default class UserList extends Component {
         this.findAllRandomUsers();
     }
 
+    /*findAllRandomUsers() {
+        fetch("https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole")
+            .then(response => response.json())
+            .then((data) => {
+                this.setState({users: data});
+            });
+    };*/
+
     findAllRandomUsers() {
         axios.get("https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole")
             .then(response => response.data)
