@@ -20,14 +20,16 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Book book = new Book();
-		book.setTitle("Spring Microservices in Action");
-		book.setAuthor("John Carnell");
-		book.setCoverPhotoURL("https://images-na.ssl-images-amazon.com/images/I/417zLTa1uqL._SX397_BO1,204,203,200_.jpg");
-		book.setIsbnNumber(1617293989L);
-		book.setPrice(2776.00);
-		book.setLanguage("English");
-		service.saveOrUpdate(book);
+		for(int i=0; i<1000; i++) {
+			Book book = new Book();
+			book.setTitle("Spring Microservices in Action "+i);
+			book.setAuthor("John Carnell "+i);
+			book.setCoverPhotoURL("https://images-na.ssl-images-amazon.com/images/I/417zLTa1uqL._SX397_BO1,204,203,200_.jpg");
+			book.setIsbnNumber(1617293989L);
+			book.setPrice(2776.00 + i);
+			book.setLanguage("English");
+			service.saveOrUpdate(book);
+		}
 	}
 
 }

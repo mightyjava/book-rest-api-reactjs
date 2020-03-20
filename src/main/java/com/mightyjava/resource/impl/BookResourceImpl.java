@@ -1,8 +1,8 @@
 package com.mightyjava.resource.impl;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,8 +22,8 @@ public class BookResourceImpl implements Resource<Book> {
 	private IService<Book> bookService;
 
 	@Override
-	public ResponseEntity<Collection<Book>> findAll() {
-		return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
+	public ResponseEntity<Page<Book>> findAll(Pageable pageable) {
+		return new ResponseEntity<>(bookService.findAll(pageable), HttpStatus.OK);
 	}
 
 	@Override

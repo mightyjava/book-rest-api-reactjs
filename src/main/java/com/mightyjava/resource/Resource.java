@@ -1,6 +1,7 @@
 package com.mightyjava.resource;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface Resource<T> {
 	@GetMapping
-	ResponseEntity<Collection<T>> findAll();
+	ResponseEntity<Page<T>> findAll(Pageable pageable);
 	
 	@GetMapping("{id}")
 	ResponseEntity<T> findById(@PathVariable Long id);

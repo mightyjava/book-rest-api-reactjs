@@ -1,9 +1,10 @@
 package com.mightyjava.service;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IService<T> {
-	Collection<T> findAll();
+	Page<T> findAll(Pageable pageable);
 	
 	T findById(Long id);
 	
