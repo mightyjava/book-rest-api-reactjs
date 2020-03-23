@@ -1,0 +1,25 @@
+.page-num {
+    width: 45px !important;
+    border: 1px solid #17A2B8;
+    color: #17A2B8;
+    text-align: center;
+    font-weight: bold;
+}
+
+.arrow {
+    width : 0;
+    height : 0;
+    float : right;
+    margin-top : 5px;
+    border-left : 5px solid transparent;
+    border-right : 5px solid transparent;
+    display : inline-block;
+}
+
+.arrow-up {
+    border-bottom : 10px solid white;
+}
+
+.arrow-down {
+    border-top : 10px solid white;
+}

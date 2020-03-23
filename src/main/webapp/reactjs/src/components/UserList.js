@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+
+import './Style.css';
 import {Card, Table, InputGroup, FormControl, Button} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUsers, faStepBackward, faFastBackward, faStepForward, faFastForward} from '@fortawesome/free-solid-svg-icons';
@@ -79,14 +81,6 @@ export default class UserList extends Component {
         const currentUsers = users.slice(firstIndex, lastIndex);
         const totalPages = users.length / usersPerPage;
 
-        const pageNumCss = {
-            width: "45px",
-            border: "1px solid #17A2B8",
-            color: "#17A2B8",
-            textAlign: "center",
-            fontWeight: "bold"
-        };
-
         return (
             <div>
                 <Card className={"border border-dark bg-dark text-white"}>
@@ -137,7 +131,7 @@ export default class UserList extends Component {
                                             <FontAwesomeIcon icon={faStepBackward} /> Prev
                                         </Button>
                                     </InputGroup.Prepend>
-                                    <FormControl style={pageNumCss} className={"bg-dark"} name="currentPage" value={currentPage}
+                                    <FormControl className={"page-num bg-dark"} name="currentPage" value={currentPage}
                                         onChange={this.changePage}/>
                                     <InputGroup.Append>
                                         <Button type="button" variant="outline-info" disabled={currentPage === totalPages ? true : false}

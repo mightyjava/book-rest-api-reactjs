@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import './Style.css';
 import {Card, Table, Image, ButtonGroup, Button, InputGroup, FormControl} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faList, faEdit, faTrash, faStepBackward, faFastBackward, faStepForward, faFastForward} from '@fortawesome/free-solid-svg-icons';
@@ -14,8 +15,16 @@ export default class BookList extends Component {
         this.state = {
             books : [],
             currentPage : 1,
-            booksPerPage : 5
+            booksPerPage : 5,
+            sortToggle : true
         };
+    }
+
+    sortData = () => {
+        this.setState(state => ({
+            sortToggle : !state.sortToggle
+        }));
+        this.findAllBooks(this.state.currentPage);
     }
 
     componentDidMount() {
@@ -32,7 +41,8 @@ export default class BookList extends Component {
 
     findAllBooks(currentPage) {
         currentPage -= 1;
-        axios.get("http://localhost:8081/rest/books?page="+currentPage+"&size="+this.state.booksPerPage)
+        let sortDir = this.state.sortToggle ? "asc" : "desc";
+        axios.get("http://localhost:8081/rest/books?pageNumber="+currentPage+"&pageSize="+this.state.booksPerPage+"&sortBy=price&sortDir="+sortDir)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -115,14 +125,6 @@ export default class BookList extends Component {
     render() {
         const {books, currentPage, totalPages} = this.state;
 
-        const pageNumCss = {
-            width: "45px",
-            border: "1px solid #17A2B8",
-            color: "#17A2B8",
-            textAlign: "center",
-            fontWeight: "bold"
-        };
-
         return (
             <div>
                 <div style={{"display":this.state.show ? "block" : "none"}}>
@@ -137,7 +139,7 @@ export default class BookList extends Component {
                                   <th>Title</th>
                                   <th>Author</th>
                                   <th>ISBN Number</th>
-                                  <th>Price</th>
+                                  <th onClick={this.sortData}>Price <div className={this.state.sortToggle ? "arrow arrow-down" : "arrow arrow-up"}> </div></th>
                                   <th>Language</th>
                                   <th>Actions</th>
                                 </tr>
@@ -186,7 +188,7 @@ export default class BookList extends Component {
                                             <FontAwesomeIcon icon={faStepBackward} /> Prev
                                         </Button>
                                     </InputGroup.Prepend>
-                                    <FormControl style={pageNumCss} className={"bg-dark"} name="currentPage" value={currentPage}
+                                    <FormControl className={"page-num bg-dark"} name="currentPage" value={currentPage}
                                         onChange={this.changePage}/>
                                     <InputGroup.Append>
                                         <Button type="button" variant="outline-info" disabled={currentPage === totalPages ? true : false}

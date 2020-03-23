@@ -12,9 +12,6 @@ import UserList from './components/UserList';
 import Footer from './components/Footer';
 
 export default function App() {
-  const marginTop = {
-    marginTop:"20px"
-  };
 
   const heading = "Welcome to Book Shop";
   const quote = "Good friends, good books, and a sleepy conscience: this is the ideal life.";
@@ -25,7 +22,7 @@ export default function App() {
         <NavigationBar/>
         <Container>
             <Row>
-                <Col lg={12} style={marginTop}>
+                <Col lg={12} className={"margin-top"}>
                     <Switch>
                         <Route path="/" exact component={() => <Welcome heading={heading} quote={quote} footer={footer}/>}/>
                         <Route path="/add" exact component={Book}/>

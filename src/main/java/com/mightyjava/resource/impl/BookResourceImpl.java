@@ -1,8 +1,9 @@
 package com.mightyjava.resource.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,8 +23,13 @@ public class BookResourceImpl implements Resource<Book> {
 	private IService<Book> bookService;
 
 	@Override
-	public ResponseEntity<Page<Book>> findAll(Pageable pageable) {
-		return new ResponseEntity<>(bookService.findAll(pageable), HttpStatus.OK);
+	public ResponseEntity<Page<Book>> findAll(int pageNumber, int pageSize, String sortBy, String sortDir) {
+		return new ResponseEntity<>(bookService.findAll(
+				PageRequest.of(
+						pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending()
+				)
+		), HttpStatus.OK);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		for(int i=0; i<1000; i++) {
+		for(int i=1; i<=1000; i++) {
 			Book book = new Book();
 			book.setTitle("Spring Microservices in Action "+i);
 			book.setAuthor("John Carnell "+i);
