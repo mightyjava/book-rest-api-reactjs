@@ -30,6 +30,9 @@ public class Book {
 	@NotNull
 	private String language;
 
+	@NotNull
+	private String genre;
+
 	public Long getId() {
 		return id;
 	}
@@ -86,4 +89,11 @@ public class Book {
 		this.language = language;
 	}
 
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 }

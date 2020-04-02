@@ -19,6 +19,11 @@ public class BookServiceImpl implements IService<Book> {
 	private BookRepository bookRepository;
 
 	@Override
+	public Page<Book> findAll(Pageable pageable, String searchText) {
+		return bookRepository.findAllBooks(pageable, searchText);
+	}
+
+	@Override
 	public Page<Book> findAll(Pageable pageable) {
 		return bookRepository.findAll(pageable);
 	}

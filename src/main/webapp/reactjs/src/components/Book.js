@@ -11,13 +11,17 @@ export default class Book extends Component {
     constructor(props) {
         super(props);
         this.state = this.initialState;
-        this.state.show = false;
+        this.state = {
+            genres: [],
+            languages : [],
+            show : false
+        };
         this.bookChange = this.bookChange.bind(this);
         this.submitBook = this.submitBook.bind(this);
     }
 
     initialState = {
-        id:'', title:'', author:'', coverPhotoURL:'', isbnNumber:'', price:'', language:''
+        id:'', title:'', author:'', coverPhotoURL:'', isbnNumber:'', price:'', language:'', genre:''
     };
 
     componentDidMount() {
@@ -25,7 +29,35 @@ export default class Book extends Component {
         if(bookId) {
             this.findBookById(bookId);
         }
+        this.findAllLanguages();
+        this.findAllGenres();
     }
+
+    findAllLanguages = () => {
+        axios.get("http://localhost:8081/rest/books/languages")
+            .then(response => response.data)
+            .then((data) => {
+                this.setState({
+                    languages: [{value:'', display:'Select Language'}]
+                        .concat(data.map(language => {
+                            return {value:language, display:language}
+                        }))
+                });
+            });
+    };
+
+    findAllGenres = () => {
+        axios.get("http://localhost:8081/rest/books/genres")
+            .then(response => response.data)
+            .then((data) => {
+                this.setState({
+                    genres: [{value:'', display:'Select Genre'}]
+                        .concat(data.map(genre => {
+                            return {value:genre, display:genre}
+                        }))
+                });
+            });
+    };
 
     /*findBookById = (bookId) => {
         fetch("http://localhost:8081/rest/books/"+bookId)
@@ -39,7 +71,8 @@ export default class Book extends Component {
                         coverPhotoURL: book.coverPhotoURL,
                         isbnNumber: book.isbnNumber,
                         price: book.price,
-                        language: book.language
+                        language: book.language,
+                        genre: book.genre
                     });
                 }
             }).catch((error) => {
@@ -58,7 +91,8 @@ export default class Book extends Component {
                         coverPhotoURL: response.data.coverPhotoURL,
                         isbnNumber: response.data.isbnNumber,
                         price: response.data.price,
-                        language: response.data.language
+                        language: response.data.language,
+                        genre: response.data.genre
                     });
                 }
             }).catch((error) => {
@@ -79,7 +113,8 @@ export default class Book extends Component {
             coverPhotoURL: this.state.coverPhotoURL,
             isbnNumber: this.state.isbnNumber,
             price: this.state.price,
-            language: this.state.language
+            language: this.state.language,
+            genre: this.state.genre
         };
 
         const headers = new Headers();
@@ -111,7 +146,8 @@ export default class Book extends Component {
             coverPhotoURL: this.state.coverPhotoURL,
             isbnNumber: this.state.isbnNumber,
             price: this.state.price,
-            language: this.state.language
+            language: this.state.language,
+            genre: this.state.genre
         };
 
         axios.post("http://localhost:8081/rest/books", book)
@@ -137,7 +173,8 @@ export default class Book extends Component {
             coverPhotoURL: this.state.coverPhotoURL,
             isbnNumber: this.state.isbnNumber,
             price: this.state.price,
-            language: this.state.language
+            language: this.state.language,
+            genre: this.state.genre
         };
 
         const headers = new Headers();
@@ -171,7 +208,8 @@ export default class Book extends Component {
             coverPhotoURL: this.state.coverPhotoURL,
             isbnNumber: this.state.isbnNumber,
             price: this.state.price,
-            language: this.state.language
+            language: this.state.language,
+            genre: this.state.genre
         };
 
         axios.put("http://localhost:8081/rest/books", book)
@@ -199,7 +237,7 @@ export default class Book extends Component {
     };
 
     render() {
-        const {title, author, coverPhotoURL, isbnNumber, price, language} = this.state;
+        const {title, author, coverPhotoURL, isbnNumber, price, language, genre} = this.state;
 
         return (
             <div>
@@ -259,11 +297,29 @@ export default class Book extends Component {
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGridLanguage">
                                     <Form.Label>Language</Form.Label>
-                                    <Form.Control required autoComplete="off"
-                                        type="test" name="language"
-                                        value={language} onChange={this.bookChange}
-                                        className={"bg-dark text-white"}
-                                        placeholder="Enter Book Language" />
+                                    <Form.Control required as="select"
+                                        custom onChange={this.bookChange}
+                                        name="language" value={language}
+                                        className={"bg-dark text-white"}>
+                                        {this.state.languages.map(language =>
+                                            <option key={language.value} value={language.value}>
+                                                {language.display}
+                                            </option>
+                                        )}
+                                    </Form.Control>
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="formGridGenre">
+                                    <Form.Label>Genre</Form.Label>
+                                    <Form.Control required as="select"
+                                        custom onChange={this.bookChange}
+                                        name="genre" value={genre}
+                                        className={"bg-dark text-white"}>
+                                        {this.state.genres.map(genre =>
+                                            <option key={genre.value} value={genre.value}>
+                                                {genre.display}
+                                            </option>
+                                        )}
+                                    </Form.Control>
                                 </Form.Group>
                             </Form.Row>
                         </Card.Body>
