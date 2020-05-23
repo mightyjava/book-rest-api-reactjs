@@ -1,6 +1,9 @@
 import React from 'react';
 import './App.css';
 
+import {Provider} from 'react-redux';
+import store from './services/store';
+
 import {Container, Row, Col} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
@@ -13,7 +16,7 @@ import Footer from './components/Footer';
 
 export default function App() {
 
-  const heading = "Welcome to Book Shop";
+  const heading = "Welcome to Book Store";
   const quote = "Good friends, good books, and a sleepy conscience: this is the ideal life.";
   const footer = "Mark Twain";
 
@@ -28,7 +31,8 @@ export default function App() {
                         <Route path="/add" exact component={Book}/>
                         <Route path="/edit/:id" exact component={Book}/>
                         <Route path="/list" exact component={BookList}/>
-                        <Route path="/users" exact component={UserList}/>
+                        <Route path="/users" exact component={() =>
+                            <Provider store={store}><UserList/></Provider>}/>
                     </Switch>
                 </Col>
             </Row>
