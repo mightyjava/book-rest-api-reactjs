@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 
+import {connect} from 'react-redux';
+import {saveBook} from '../../services/index';
+
 import {Card, Form, Button, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSave, faPlusSquare, faUndo, faList, faEdit} from '@fortawesome/free-solid-svg-icons';
-import MyToast from './MyToast';
+import MyToast from '../MyToast';
 import axios from 'axios';
 
-export default class Book extends Component {
+class Book extends Component {
 
     constructor(props) {
         super(props);
@@ -150,7 +153,16 @@ export default class Book extends Component {
             genre: this.state.genre
         };
 
-        axios.post("http://localhost:8081/rest/books", book)
+        this.props.saveBook(book);
+        setTimeout(() => {
+            if(this.props.savedBookObject.book != null) {
+                this.setState({"show":true, "method":"post"});
+                setTimeout(() => this.setState({"show":false}), 3000);
+            } else {
+                this.setState({"show":false});
+            }
+        }, 2000);
+        /*axios.post("http://localhost:8081/rest/books", book)
             .then(response => {
                 if(response.data != null) {
                     this.setState({"show":true, "method":"post"});
@@ -158,7 +170,7 @@ export default class Book extends Component {
                 } else {
                     this.setState({"show":false});
                 }
-            });
+            });*/
 
         this.setState(this.initialState);
     };
@@ -339,4 +351,18 @@ export default class Book extends Component {
             </div>
         );
     }
-}
+};
+
+const mapStateToProps = state => {
+    return {
+        savedBookObject: state.book
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        saveBook: (book) => dispatch(saveBook(book))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Book);

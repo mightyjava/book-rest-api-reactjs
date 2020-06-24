@@ -1,17 +1,14 @@
 import React from 'react';
 import './App.css';
 
-import {Provider} from 'react-redux';
-import store from './services/store';
-
 import {Container, Row, Col} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import NavigationBar from './components/NavigationBar';
 import Welcome from './components/Welcome';
-import Book from './components/Book';
-import BookList from './components/BookList';
-import UserList from './components/UserList';
+import Book from './components/Book/Book';
+import BookList from './components/Book/BookList';
+import UserList from './components/User/UserList';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -31,8 +28,7 @@ export default function App() {
                         <Route path="/add" exact component={Book}/>
                         <Route path="/edit/:id" exact component={Book}/>
                         <Route path="/list" exact component={BookList}/>
-                        <Route path="/users" exact component={() =>
-                            <Provider store={store}><UserList/></Provider>}/>
+                        <Route path="/users" exact component={UserList}/>
                     </Switch>
                 </Col>
             </Row>
