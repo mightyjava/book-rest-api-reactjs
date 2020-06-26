@@ -17,14 +17,12 @@ export default class BookList extends Component {
             search : '',
             currentPage : 1,
             booksPerPage : 5,
-            sortToggle : true
+            sortDir: "asc"
         };
     }
 
     sortData = () => {
-        this.setState(state => ({
-            sortToggle : !state.sortToggle
-        }));
+        this.state.sortDir === "asc" ? this.setState({sortDir: "desc"}) : this.setState({sortDir: "asc"});
         this.findAllBooks(this.state.currentPage);
     }
 
@@ -42,8 +40,7 @@ export default class BookList extends Component {
 
     findAllBooks(currentPage) {
         currentPage -= 1;
-        let sortDir = this.state.sortToggle ? "asc" : "desc";
-        axios.get("http://localhost:8081/rest/books?pageNumber="+currentPage+"&pageSize="+this.state.booksPerPage+"&sortBy=price&sortDir="+sortDir)
+        axios.get("http://localhost:8081/rest/books?pageNumber="+currentPage+"&pageSize="+this.state.booksPerPage+"&sortBy=price&sortDir="+this.state.sortDir)
             .then(response => response.data)
             .then((data) => {
                 this.setState({
@@ -204,7 +201,7 @@ export default class BookList extends Component {
                                   <th>Title</th>
                                   <th>Author</th>
                                   <th>ISBN Number</th>
-                                  <th onClick={this.sortData}>Price <div className={this.state.sortToggle ? "arrow arrow-down" : "arrow arrow-up"}> </div></th>
+                                  <th onClick={this.sortData}>Price <div className={this.state.sortDir === "asc" ? "arrow arrow-down" : "arrow arrow-up"}> </div></th>
                                   <th>Language</th>
                                   <th>Genre</th>
                                   <th>Actions</th>

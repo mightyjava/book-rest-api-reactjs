@@ -1,4 +1,4 @@
-import {SAVE_BOOK_REQUEST, SAVE_BOOK_SUCCESS, SAVE_BOOK_FAILURE} from "./bookTypes";
+import {SAVE_BOOK_REQUEST, FETCH_BOOK_REQUEST, UPDATE_BOOK_REQUEST, BOOK_SUCCESS, BOOK_FAILURE} from "./bookTypes";
 import axios from 'axios';
 
 export const saveBook = book => {
@@ -6,10 +6,10 @@ export const saveBook = book => {
         dispatch(saveBookRequest());
         axios.post("http://localhost:8081/rest/books", book)
             .then(response => {
-                dispatch(saveBookSuccess(response.data));
+                dispatch(bookSuccess(response.data));
             })
             .catch(error => {
-                dispatch(saveBookFailure(error))
+                dispatch(bookFailure(error));
             });
     };
 };
@@ -20,16 +20,54 @@ const saveBookRequest = () => {
     };
 };
 
-const saveBookSuccess = book => {
+const fetchBookRequest = () => {
     return {
-        type: SAVE_BOOK_SUCCESS,
+        type: FETCH_BOOK_REQUEST
+    };
+};
+
+export const fetchBook = bookId => {
+    return dispatch => {
+        dispatch(fetchBookRequest());
+        axios.get("http://localhost:8081/rest/books/"+bookId)
+            .then(response => {
+                dispatch(bookSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(bookFailure(error));
+            });
+    };
+};
+
+const updateBookRequest = () => {
+    return {
+        type: UPDATE_BOOK_REQUEST
+    };
+};
+
+export const updateBook = book => {
+    return dispatch => {
+        dispatch(updateBookRequest());
+        axios.put("http://localhost:8081/rest/books", book)
+            .then(response => {
+                dispatch(bookSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(bookFailure(error));
+            });
+    };
+};
+
+const bookSuccess = book => {
+    return {
+        type: BOOK_SUCCESS,
         payload: book
     };
 };
 
-const saveBookFailure = error => {
+const bookFailure = error => {
     return {
-        type: SAVE_BOOK_FAILURE,
+        type: BOOK_FAILURE,
         payload: error
     };
 };
