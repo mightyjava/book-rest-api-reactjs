@@ -1,4 +1,4 @@
-import {SAVE_BOOK_REQUEST, FETCH_BOOK_REQUEST, UPDATE_BOOK_REQUEST, BOOK_SUCCESS, BOOK_FAILURE} from "./bookTypes";
+import {SAVE_BOOK_REQUEST, FETCH_BOOK_REQUEST, UPDATE_BOOK_REQUEST, DELETE_BOOK_REQUEST, BOOK_SUCCESS, BOOK_FAILURE} from "./bookTypes";
 
 const initialState = {
     book: '', error: ''
@@ -6,15 +6,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case SAVE_BOOK_REQUEST:
-            return {
-                ...state
-            };
-        case FETCH_BOOK_REQUEST:
-            return {
-                ...state
-            };
-        case UPDATE_BOOK_REQUEST:
+        case SAVE_BOOK_REQUEST || FETCH_BOOK_REQUEST || UPDATE_BOOK_REQUEST || DELETE_BOOK_REQUEST:
             return {
                 ...state
             };
