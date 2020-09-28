@@ -9,6 +9,8 @@ import Welcome from './components/Welcome';
 import Book from './components/Book/Book';
 import BookList from './components/Book/BookList';
 import UserList from './components/User/UserList';
+import Register from './components/User/Register';
+import Login from './components/User/Login';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -29,6 +31,9 @@ export default function App() {
                         <Route path="/edit/:id" exact component={Book}/>
                         <Route path="/list" exact component={BookList}/>
                         <Route path="/users" exact component={UserList}/>
+                        <Route path="/register" exact component={Register}/>
+                        <Route path="/login" exact component={Login}/>
+                        <Route path="/logout" exact component={Login}/>
                     </Switch>
                 </Col>
             </Row>
