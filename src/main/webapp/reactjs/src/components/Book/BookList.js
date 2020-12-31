@@ -35,14 +35,6 @@ class BookList extends Component {
         this.findAllBooks(this.state.currentPage);
     }
 
-    /*findAllBooks() {
-        fetch("http://localhost:8081/rest/books")
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({books: data});
-            });
-    };*/
-
     findAllBooks(currentPage) {
         currentPage -= 1;
         axios.get("http://localhost:8081/rest/books?pageNumber="+currentPage+"&pageSize="+this.state.booksPerPage+"&sortBy=price&sortDir="+this.state.sortDir)
@@ -57,24 +49,6 @@ class BookList extends Component {
             });
     };
 
-    /*deleteBook = (bookId) => {
-        fetch("http://localhost:8081/rest/books/"+bookId, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then((book) => {
-            if(book) {
-                this.setState({"show":true});
-                setTimeout(() => this.setState({"show":false}), 3000);
-                this.setState({
-                    books: this.state.books.filter(book => book.id !== bookId)
-                });
-            } else {
-                this.setState({"show":false});
-            }
-        });
-    };*/
-
     deleteBook = (bookId) => {
         this.props.deleteBook(bookId);
         setTimeout(() => {
@@ -86,18 +60,6 @@ class BookList extends Component {
                 this.setState({"show":false});
             }
         }, 1000);
-        /*axios.delete("http://localhost:8081/rest/books/"+bookId)
-            .then(response => {
-                if(response.data != null) {
-                    this.setState({"show":true});
-                    setTimeout(() => this.setState({"show":false}), 3000);
-                    this.setState({
-                        books: this.state.books.filter(book => book.id !== bookId)
-                    });
-                } else {
-                    this.setState({"show":false});
-                }
-            });*/
     };
 
     changePage = event => {
