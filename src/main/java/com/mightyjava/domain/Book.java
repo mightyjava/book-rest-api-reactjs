@@ -1,10 +1,10 @@
 package com.mightyjava.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tbl_book")
@@ -14,25 +14,25 @@ public class Book {
 	@GeneratedValue
 	private Long id;
 
-	@NotNull
+	@Column(nullable = false)
 	private String title;
 
-	@NotNull
+	@Column(nullable = false)
 	private String author;
 
-	@NotNull
+	@Column(nullable = false)
 	private String coverPhotoURL;
 
-	@NotNull
+	@Column(nullable = false)
 	private Long isbnNumber;
 
-	@NotNull
+	@Column(nullable = false)
 	private Double price;
 
-	@NotNull
+	@Column(nullable = false)
 	private String language;
 
-	@NotNull
+	@Column(nullable = false)
 	private String genre;
 
 	public Long getId() {

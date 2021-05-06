@@ -46,6 +46,11 @@ class BookList extends Component {
                     totalElements: data.totalElements,
                     currentPage: data.number + 1
                 });
+            })
+            .catch(error => {
+                console.log(error);
+                localStorage.removeItem('jwtToken');
+                this.props.history.push('/');
             });
     };
 

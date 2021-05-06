@@ -1,12 +1,12 @@
 package com.mightyjava.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tbl_user")
@@ -14,13 +14,13 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@NotNull
+	@Column(nullable = false)
 	private String name;
-	@NotNull
+	@Column(nullable = false)
 	private String email;
-	@NotNull
+	@Column(nullable = false)
 	private String mobile;
-	@NotNull
+	@Column(nullable = false)
 	private String password;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
