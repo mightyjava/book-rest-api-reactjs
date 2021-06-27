@@ -1,25 +1,32 @@
-import React from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
 
-import {Jumbotron} from 'react-bootstrap';
-import authToken from '../utils/authToken';
+const Welcome = (props) => {
+  const [quotes, setQuotes] = useState("");
 
-export default function Welcome(props) {
-
-    if(localStorage.jwtToken) {
-        authToken(localStorage.jwtToken);
+  useEffect(() => {
+    if (quotes === "") {
+      axios.get("https://type.fit/api/quotes").then((response) => {
+        setQuotes(response.data);
+      });
     }
+  }, [quotes]);
 
-    return (
-        <Jumbotron className="bg-dark text-white">
-            <h1>{props.heading}</h1>
-            <blockquote className="blockquote mb-0">
-                <p>
-                    {props.quote}
-                </p>
-                <footer className="blockquote-footer">
-                    {props.footer}
-                </footer>
+  return (
+    <Card bg="dark" text="light">
+      <Card.Header>Quotes</Card.Header>
+      <Card.Body style={{ overflowY: "scroll", height: "570px" }}>
+        {quotes &&
+          quotes.map((quote, id) => (
+            <blockquote className="blockquote mb-0" key={id}>
+              <p>{quote.text}</p>
+              <footer className="blockquote-footer">{quote.author}</footer>
             </blockquote>
-        </Jumbotron>
-    );
-}
+          ))}
+      </Card.Body>
+    </Card>
+  );
+};
+
+export default Welcome;

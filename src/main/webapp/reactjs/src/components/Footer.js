@@ -1,21 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
-import {Navbar, Container, Col} from 'react-bootstrap';
+import { Navbar, Container, Col } from "react-bootstrap";
 
-export default function Footer() {
-    const [fullYear, setFullYear] = useState();
+const Footer = () => {
+  const [fullYear, setFullYear] = useState();
 
-    useEffect(() => {
-        setFullYear(new Date().getFullYear());
-    }, [fullYear]);
+  useEffect(() => {
+    setFullYear(new Date().getFullYear());
+  }, [fullYear]);
 
-    return (
-        <Navbar fixed="bottom" bg="dark" variant="dark">
-            <Container>
-                <Col lg={12} className="text-center text-muted">
-                    <div>{fullYear}-{fullYear+1}, All Rights Reserved by Almighty Java</div>
-                </Col>
-            </Container>
-        </Navbar>
-    );
-}
+  return (
+    <Navbar fixed="bottom" bg="dark" variant="dark">
+      <Container>
+        <Col lg={12} className="text-center text-muted">
+          <div>
+            {fullYear}-{fullYear + 1}, All Rights Reserved by Almighty Java
+          </div>
+        </Col>
+      </Container>
+    </Navbar>
+  );
+};
+
+export default Footer;
