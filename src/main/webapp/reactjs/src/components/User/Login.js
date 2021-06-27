@@ -43,6 +43,7 @@ class Login extends Component {
         return (
             <Row className="justify-content-md-center">
                 <Col xs={5}>
+                    {this.props.message && <Alert variant="success">{this.props.message}</Alert>}
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Card className={"border border-dark bg-dark text-white"}>
                         <Card.Header>
@@ -72,7 +73,7 @@ class Login extends Component {
                                 </Form.Group>
                             </Form.Row>
                         </Card.Body>
-                        <Card.Footer style={{"text-align":"right"}}>
+                        <Card.Footer style={{"textAlign":"right"}}>
                             <Button size="sm" type="button" variant="success" onClick={this.validateUser}
                                 disabled={this.state.email.length === 0 || this.state.password.length === 0}>
                                 <FontAwesomeIcon icon={faSignInAlt}/> Login

@@ -1,4 +1,4 @@
-import {FETCH_USER_REQUEST, FETCH_USER_SUCCESS, FETCH_USER_FAILURE} from './userTypes';
+import * as UT from './userTypes';
 
 const initialState = {
     users: [],
@@ -7,16 +7,21 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case FETCH_USER_REQUEST:
+        case UT.USER_REQUEST:
             return {
                 ...state
             };
-        case FETCH_USER_SUCCESS:
+        case UT.USER_SUCCESS:
             return {
                 users: action.payload,
                 error: ''
             };
-        case FETCH_USER_FAILURE:
+        case UT.USER_SAVED_SUCCESS:
+            return {
+                message: action.payload,
+                error: ''
+            }
+        case UT.USER_FAILURE:
             return {
                 users: [],
                 error: action.payload

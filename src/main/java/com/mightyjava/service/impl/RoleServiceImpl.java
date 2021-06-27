@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.mightyjava.domain.Role;
 import com.mightyjava.repository.RoleRepository;
-import com.mightyjava.service.IService;
+import com.mightyjava.service.IRoleService;
 
 @Service
-public class RoleServiceImpl implements IService<Role> {
+public class RoleServiceImpl implements IRoleService<Role> {
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -26,6 +26,11 @@ public class RoleServiceImpl implements IService<Role> {
 	@Override
 	public Optional<Role> findById(Long id) {
 		return roleRepository.findById(id);
+	}
+	
+	@Override
+	public Role findByName(String name) {
+		return roleRepository.findByName(name);
 	}
 
 	@Override

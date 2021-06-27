@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mightyjava.config.JwtTokenProvider;
 import com.mightyjava.domain.User;
+import com.mightyjava.repository.RoleRepository;
 import com.mightyjava.repository.UserRepository;
+import com.mightyjava.utils.ConstantUtils;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserResourceImpl {
 
 	private static Logger log = LoggerFactory.getLogger(UserResourceImpl.class);
@@ -35,9 +38,32 @@ public class UserResourceImpl {
 	private JwtTokenProvider tokenProvider;
 
 	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
 	private UserRepository userRepository;
 
-	@PostMapping(value = "/authenticate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> register(@RequestBody User user) {
+		log.info("UserResourceImpl : register");
+		JSONObject jsonObject = new JSONObject();
+		try {
+			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+			user.setRole(roleRepository.findByName(ConstantUtils.USER.toString()));
+			User savedUser = userRepository.saveAndFlush(user);
+			jsonObject.put("message", savedUser.getName() + " saved succesfully");
+			return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+		} catch (JSONException e) {
+			try {
+				jsonObject.put("exception", e.getMessage());
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+			return new ResponseEntity<String>(jsonObject.toString(), HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@PostMapping(value = "/authenticate", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> authenticate(@RequestBody User user) {
 		log.info("UserResourceImpl : authenticate");
 		JSONObject jsonObject = new JSONObject();

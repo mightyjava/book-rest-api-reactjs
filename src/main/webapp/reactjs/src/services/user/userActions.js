@@ -1,35 +1,51 @@
-import {FETCH_USER_REQUEST, FETCH_USER_SUCCESS, FETCH_USER_FAILURE} from './userTypes';
+import * as UT from './userTypes';
 import axios from 'axios';
 
 export const fetchUsers = () => {
     return dispatch => {
-        dispatch(fetchUserRequest());
+        dispatch(userRequest());
         axios.get("https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole")
             .then(response => {
-                dispatch(fetchUserSuccess(response.data));
+                dispatch(userSuccess(response.data));
             })
             .catch(error => {
-                dispatch(fetchUserFailure(error.message));
+                dispatch(userFailure(error.message));
             });
     };
 };
 
-const fetchUserRequest = () => {
-    return {
-        type: FETCH_USER_REQUEST
+export const registerUser = (userObject) => {
+    return dispatch => {
+        dispatch(userRequest());
+        axios.post("http://localhost:8081/rest/user/register", userObject)
+            .then(response => {
+                dispatch({
+                    type: UT.USER_SAVED_SUCCESS,
+                    payload: response.data.message
+                });
+            })
+            .catch(error => {
+                dispatch(userFailure(error.message));
+            });
     };
 };
 
-const fetchUserSuccess = users => {
+const userRequest = () => {
     return {
-        type: FETCH_USER_SUCCESS,
+        type: UT.USER_REQUEST
+    };
+};
+
+const userSuccess = users => {
+    return {
+        type: UT.USER_SUCCESS,
         payload: users
     };
 };
 
-const fetchUserFailure = error => {
+const userFailure = error => {
     return {
-        type: FETCH_USER_FAILURE,
+        type: UT.USER_FAILURE,
         payload: error
     };
 };
