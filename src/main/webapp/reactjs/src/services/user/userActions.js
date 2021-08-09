@@ -1,6 +1,8 @@
 import * as UT from "./userTypes";
 import axios from "axios";
 
+const REGISTER_URL = "http://localhost:8081/rest/user/register";
+
 export const fetchUsers = () => {
   return (dispatch) => {
     dispatch(userRequest());
@@ -17,26 +19,28 @@ export const fetchUsers = () => {
   };
 };
 
-export const registerUser = (userObject) => {
-  return (dispatch) => {
-    dispatch(userRequest());
-    axios
-      .post("http://localhost:8081/rest/user/register", userObject)
-      .then((response) => {
-        dispatch({
-          type: UT.USER_SAVED_SUCCESS,
-          payload: response.data.message,
-        });
-      })
-      .catch((error) => {
-        dispatch(userFailure(error.message));
-      });
-  };
+export const registerUser = (userObject) => async (dispatch) => {
+  dispatch(userRequest());
+  try {
+    const response = await axios.post(REGISTER_URL, userObject);
+    dispatch(userSavedSuccess(response.data));
+    return Promise.resolve(response.data);
+  } catch (error) {
+    dispatch(userFailure(error.message));
+    return Promise.reject(error);
+  }
 };
 
 const userRequest = () => {
   return {
     type: UT.USER_REQUEST,
+  };
+};
+
+const userSavedSuccess = (user) => {
+  return {
+    type: UT.USER_SAVED_SUCCESS,
+    payload: user,
   };
 };
 

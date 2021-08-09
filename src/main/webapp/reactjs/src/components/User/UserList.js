@@ -31,25 +31,8 @@ class UserList extends Component {
   }
 
   componentDidMount() {
-    //this.findAllRandomUsers();
     this.props.fetchUsers();
   }
-
-  /*findAllRandomUsers() {
-        fetch("https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole")
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({users: data});
-            });
-    };*/
-
-  /*findAllRandomUsers() {
-        axios.get("https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole")
-            .then(response => response.data)
-            .then((data) => {
-                this.setState({users: data});
-            });
-    };*/
 
   changePage = (event) => {
     this.setState({
@@ -103,7 +86,7 @@ class UserList extends Component {
     const userData = this.props.userData;
     const users = userData.users;
     const currentUsers = users && users.slice(firstIndex, lastIndex);
-    const totalPages = users.length / usersPerPage;
+    const totalPages = users && users.length / usersPerPage;
 
     return (
       <div>
